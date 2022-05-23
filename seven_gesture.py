@@ -11,7 +11,6 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
 # Functions for cropping augmented input
-
 def make_square(img):
     big_dim = np.argmax(img.shape[:2])
     small_dim = 1 - big_dim
@@ -35,7 +34,7 @@ mpHands = mp.solutions.hands
 hands = mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
 mpDraw = mp.solutions.drawing_utils
 
-# Load model
+# Now we download and load our model
 url = "https://www.dropbox.com/s/vq8c9yu4or0wkc0/06-0.02.hdf5?dl=1"
 local_file, headers = urllib.request.urlretrieve(url, "models/gesture_model.hdf5")
 model = load_model(local_file)
@@ -76,7 +75,6 @@ while True:
         landmarks = []
         for handslms in result.multi_hand_landmarks:
             for lm in handslms.landmark:
-                # print(id, lm)
                 lmx = int(lm.x * x)
                 lmy = int(lm.y * y)
 
@@ -135,8 +133,8 @@ while True:
             last_gesture = class_name
     text = "Palm = Play, C = Pause, Thumb Up = Vol Up, Thumb Down = Vol Down, Point up = Next, L = Last"
     # show the prediction on the frame
-    #cv2.putText(blank_image, class_name, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
-                 #  1, (0,0,255), 2, cv2.LINE_AA)
+    cv2.putText(blank_image, class_name, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                   1, (0,0,255), 2, cv2.LINE_AA)
 
     # Show the final output
     cv2.imshow("Output", blank_image) 
