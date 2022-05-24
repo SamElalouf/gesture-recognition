@@ -24,6 +24,7 @@ def default_command_logic(class_name):
 ```
 
 This is a basic framework for how the user can specify their own command logic:
+
 List of command names: ["C", "Palm", "Thumb", "Down", "Index","L", "Ok"]
 
 ```ruby
