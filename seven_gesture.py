@@ -138,7 +138,6 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
                     consec_gesture_count = 0
                 last_gesture = class_name
         # show the prediction on the frame
-        # swap blank image for annotated image HERE to show raw input plus landmarks
         if show_text_on_frame:
             if landmarks_only:
                 cv2.putText(blank_image, class_name, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
