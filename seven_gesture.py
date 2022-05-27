@@ -1,6 +1,7 @@
 import cv2
 import os
 import time
+import click
 import numpy as np
 import mediapipe as mp
 import tensorflow as tf
@@ -9,6 +10,10 @@ from tensorflow.keras.models import load_model
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
+
+
+
+
 
 # This is the default command logic for the script, which issues spotify commands to a spotify session open in your web browser.
 def default_command_logic(class_name):
@@ -49,6 +54,7 @@ def crop_image(img):
     mask = img > 0
     mask = mask.any(2)
     return img[np.ix_(mask.any(1), mask.any(0))]
+
 
 
 def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only=True):
@@ -156,5 +162,16 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
 
     cv2.destroyAllWindows()
 
+# Here we use the click library to make a command line tool for our gesture recognition program.
+@click.command()
+@click.option('--camera', default=0, prompt='Which camera do you want to use?', help='Enter 0 if you only have one camera.')
+@click.option('--show_text_on_frame', default=True, prompt='Do you want to show the text of the gesture predicted on the output? ()', help='True for yes, False for No.')
+@click.option('--landmarks_only', default=True, prompt= 'Do you want to see the landmarks overlaid on the image or just see the landmarks?', help='True for landmarks, False if you also want the raw image.')
 
-gesture_rec(command_logic=default_command_logic)
+
+def cl_gesture(camera=0, show_text_on_frame=True, landmarks_only=True):
+    gesture_rec(command_logic=default_command_logic,camera=camera, show_text_on_frame=show_text_on_frame, landmarks_only=landmarks_only)
+
+
+if __name__ == '__main__':
+    cl_gesture()
