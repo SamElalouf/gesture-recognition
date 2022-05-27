@@ -51,7 +51,7 @@ def crop_image(img):
     return img[np.ix_(mask.any(1), mask.any(0))]
 
 
-def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only=True,):
+def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only=True):
 
     # initialize mediapipe
     mpHands = mp.solutions.hands
