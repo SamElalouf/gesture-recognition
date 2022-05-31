@@ -13,8 +13,6 @@ mp_hands = mp.solutions.hands
 
 
 
-
-
 # This is the default command logic for the script, which issues spotify commands to a spotify session open in your web browser.
 def default_command_logic(class_name):
     if class_name == "Ok" :
@@ -153,6 +151,12 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
                 cv2.putText(annotated_image, class_name, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
                        1, (0,0,255), 2, cv2.LINE_AA)
                 cv2.imshow("Output", annotated_image)
+        elif not show_text_on_frame:
+            if landmarks_only:
+                cv2.imshow("Output", blank_image)          
+            elif not landmarks_only:
+                cv2.imshow("Output", annotated_image)
+
 
         if cv2.waitKey(1) == ord('q'):
             break
@@ -164,13 +168,11 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
 
 # Here we use the click library to make a command line tool for our gesture recognition program.
 @click.command()
-@click.option('--camera', default=0, prompt='Which camera do you want to use?', help='Enter 0 if you only have one camera.')
-@click.option('--show_text_on_frame', default=True, prompt='Do you want to show the text of the gesture predicted on the output? ()', help='True for yes, False for No.')
-@click.option('--landmarks_only', default=True, prompt= 'Do you want to see the landmarks overlaid on the image or just see the landmarks?', help='True for landmarks, False if you also want the raw image.')
-
-
-def cl_gesture(camera=0, show_text_on_frame=True, landmarks_only=True):
-    gesture_rec(command_logic=default_command_logic,camera=camera, show_text_on_frame=show_text_on_frame, landmarks_only=landmarks_only)
+@click.option('--camera', default=0, type=int, prompt='Which camera do you want to use?', help='Enter 0 if you only have one camera.')
+@click.option('--show-text-on-frame', default=True, type=bool, prompt='Do you want to show the text of the gesture predicted on the output? ()', help='True for yes, False for No.')
+@click.option('--landmarks-only', default=True, type=bool, prompt= 'Do you want to see just the landmarks of the hand?', help='True for landmarks only, False if you also want the raw image.')
+def cl_gesture(camera, show_text_on_frame, landmarks_only):
+    gesture_rec(command_logic=default_command_logic, camera=camera, show_text_on_frame=show_text_on_frame, landmarks_only=landmarks_only)
 
 
 if __name__ == '__main__':
