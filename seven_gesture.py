@@ -19,18 +19,16 @@ def default_command_logic(class_name):
         os.system("spotify play")
     elif class_name == "Palm" :
         os.system("spotify pause")
-
-    else:
-        if class_name == "Thumb":
-            os.system("spotify volume up 20")
-        elif class_name == "Down":
-            os.system("spotify volume down 20")
-        elif class_name == "Index":
-            os.system("spotify next")
-        elif class_name == "L":
-            os.system("spotify previous")
-        elif class_name == "C":
-            os.system("spotify history")
+    elif class_name == "Thumb":
+        os.system("spotify volume up 20")
+    elif class_name == "Down":
+        os.system("spotify volume down 20")
+    elif class_name == "Index":
+        os.system("spotify next")
+    elif class_name == "L":
+        os.system("spotify previous")
+    elif class_name == "C":
+        os.system("spotify history")
 
 
 # Functions for cropping augmented input
@@ -90,12 +88,10 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
         # Get hand landmark prediction
         result = hands.process(framergb)
 
-        # Binary Hasing variables
+        # Prepare our images, both raw and blank.
         annotated_image = framergb.copy()
         blank_image = np.zeros_like(annotated_image)
-
-        # print(result)
-        
+        annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
         class_name = ''
 
         # post process the result
