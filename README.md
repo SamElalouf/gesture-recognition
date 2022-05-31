@@ -1,5 +1,10 @@
 # gesture-recognition
-A program that uses a neural network to identify hand gestures as inputs commands for spotify and other tools.
+A program that uses a neural network to identify hand gestures as inputs commands for spotify and other tools. 
+Here is an example of it in action:
+<p align="center">
+  <img src="demo.gif" alt="animated" />
+</p>
+
 The default command logic is set up to issue commands to a Spotify session playing on the browser for the device.
 The logic is specified through a function which can be replaced by a custom command logic. Here is the default function:
 
