@@ -137,6 +137,7 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
                     time.sleep(1)
                     consec_gesture_count = 0
                 last_gesture = class_name
+                
         # show the prediction on the frame
         if show_text_on_frame:
             if landmarks_only:
