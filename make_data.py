@@ -40,10 +40,12 @@ def make_data(category_names, webcam=0, size=224, landmarks_only=True):
     current_pic_num = 1
     while webcam.isOpened():
             for name in category_names:
+                Path('data/' + str(name) + '/').mkdir(parents=True, exist_ok=True)
                 while True:
                         try:
                             _, frame = webcam.read()
-                            x, y, c = frame.shape
+                            if frame is not None:
+                                x, y, c = frame.shape
 
                             # Flip the frame vertically
                             frame = cv2.flip(frame, 1)
@@ -102,7 +104,7 @@ def make_data(category_names, webcam=0, size=224, landmarks_only=True):
 
                             key = cv2.waitKey(1)
                             if key == ord('s'):
-                                file_name = "data/" + str(name) + "_" + str(current_pic_num) + '.png'
+                                file_name = 'data/' + str(name) + '/' + str(name) + "_" + str(current_pic_num) + '.png'
                                 cropped = crop_image(blank_image)
                                 new_image = make_square(cropped)
                                 resized_image = cv2.resize(new_image, (size, size))
