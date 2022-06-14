@@ -29,12 +29,20 @@ def crop_image(img):
     return img[np.ix_(mask.any(1), mask.any(0))]
 
 ### Snap Pics
-def make_data(category_names, webcam=0, size=224, landmarks_only=True):
+def make_data(add_category=None, webcam=0, size=224, landmarks_only=True):
 
     # initialize mediapipe
     mpHands = mp.solutions.hands
     hands = mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
     mpDraw = mp.solutions.drawing_utils
+
+    # initialize Category list
+    p = Path('data')
+    category_names = [str(x).strip("data\\\\") for x in p.iterdir() if x.is_dir()]
+    print(category_names)
+
+    if add_category is not None:
+        category_names.append(add_category)
 
     webcam = cv2.VideoCapture(webcam)
     current_pic_num = 1
@@ -135,6 +143,5 @@ def make_data(category_names, webcam=0, size=224, landmarks_only=True):
                             break
 
 
-category_names = ["C", "Palm", "Thumb", "Down", "Index","L", "Ok", "Irrelevant"]
 
-make_data(category_names=category_names)
+make_data(add_category="Peace")
