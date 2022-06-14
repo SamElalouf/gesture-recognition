@@ -54,7 +54,9 @@ def make_data(add_category=None, webcam=0, size=224, landmarks_only=True):
                             _, frame = webcam.read()
                             if frame is not None:
                                 x, y, c = frame.shape
-
+                            else:
+                                break
+                                
                             # Flip the frame vertically
                             frame = cv2.flip(frame, 1)
                             framergb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
