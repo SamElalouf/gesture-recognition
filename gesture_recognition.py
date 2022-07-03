@@ -53,7 +53,7 @@ def crop_image(img):
 
 
 
-def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only=True):
+def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only=True, show_dual_view=False):
 
     # initialize mediapipe
     mpHands = mp.solutions.hands
@@ -139,7 +139,12 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
                 last_gesture = class_name
                 
         # show the prediction on the frame
-        if show_text_on_frame:
+        if show_dual_view:
+            cv2.putText(blank_image, class_name, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                   1, (0,0,255), 2, cv2.LINE_AA)
+            hori_concat = np.concatenate((blank_image, annotated_image), axis=1)
+            cv2.imshow("Output", hori_concat)
+        elif show_text_on_frame:
             if landmarks_only:
                 cv2.putText(blank_image, class_name, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 
                        1, (0,0,255), 2, cv2.LINE_AA)
@@ -155,6 +160,7 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
                 cv2.imshow("Output", annotated_image)
 
 
+
         if cv2.waitKey(1) == ord('q'):
             break
 
@@ -168,8 +174,9 @@ def gesture_rec(command_logic, camera=0, show_text_on_frame=True, landmarks_only
 @click.option('--camera', default=0, type=int, prompt='Which camera do you want to use?', help='Enter 0 if you only have one camera.')
 @click.option('--show-text-on-frame', default=True, type=bool, prompt='Do you want to show the text of the gesture predicted on the output? ()', help='True for yes, False for No.')
 @click.option('--landmarks-only', default=True, type=bool, prompt= 'Do you want to see just the landmarks of the hand?', help='True for landmarks only, False if you also want the raw image.')
-def cl_gesture(camera, show_text_on_frame, landmarks_only):
-    gesture_rec(command_logic=default_command_logic, camera=camera, show_text_on_frame=show_text_on_frame, landmarks_only=landmarks_only)
+@click.option('--show-dual-view', default=False, type=bool, prompt= 'Do you want to see a dual view of landmarks and raw footage? (Selecting True will result in text of gesture being displayed.', help='If you put True for this, then lanmark names will auto display.')
+def cl_gesture(camera, show_text_on_frame, landmarks_only, show_dual_view):
+    gesture_rec(command_logic=default_command_logic, camera=camera, show_text_on_frame=show_text_on_frame, landmarks_only=landmarks_only, show_dual_view=show_dual_view)
 
 
 if __name__ == '__main__':
