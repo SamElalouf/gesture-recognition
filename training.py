@@ -59,14 +59,13 @@ def train_models(categories=categories, data_directory=data_directory, epochs=6,
 	train_datagen = ImageDataGenerator(rescale = 1./255, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)
 	test_datagen = ImageDataGenerator(rescale = 1./255)
 
-	# Make sure you provide the same target size as initialied for the image size
+	# Make sure you provide the same target size as initialied for the image size. For the VGG-16 model we require 224 by 224 pixels.
 	training_set = train_datagen.flow_from_directory('train', target_size = (224, 224), batch_size = 32, class_mode = 'categorical')
 	test_set = test_datagen.flow_from_directory('test', target_size = (224, 224), batch_size = 32, class_mode = 'categorical')
 	checkpoint_filepath = 'models/{epoch:02d}-{val_loss:.2f}.hdf5'
 	model_checkpoint_callback = ModelCheckpoint(filepath=checkpoint_filepath, save_weights_only=False, monitor='val_loss', mode='min', save_best_only=save_best_only)
 
-	# fit the model
-	# Run the cell. It will take some time to execute
+	# Fit and run the model. This will take some time to execute
 	r = model.fit(training_set, callbacks=[model_checkpoint_callback], validation_data=test_set, epochs=epochs, steps_per_epoch=len(training_set), validation_steps=len(test_set))
 	y_pred = model.predict(test_set)
 
