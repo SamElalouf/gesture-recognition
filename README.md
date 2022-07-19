@@ -24,6 +24,7 @@ def default_command_logic(class_name):
         os.system("spotify previous")
     elif class_name == "C":
         os.system("spotify history")
+        
 ```
 
 This is a basic framework for how the user can specify their own command logic:
